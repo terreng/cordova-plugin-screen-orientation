@@ -38,9 +38,9 @@
     if(orientationMask & 1) {
         [result addObject:[NSNumber numberWithInt:UIInterfaceOrientationPortrait]];
     }
-    if(orientationMask & 2) {
-        [result addObject:[NSNumber numberWithInt:UIInterfaceOrientationPortraitUpsideDown]];
-    }
+    //if(orientationMask & 2) {
+    //    [result addObject:[NSNumber numberWithInt:UIInterfaceOrientationPortraitUpsideDown]];
+    //}
     if(orientationMask & 4) {
         [result addObject:[NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight]];
     }
