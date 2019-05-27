@@ -1,7 +1,3 @@
----
-title: Screen Orientation
-description: Set the screen orientation
----
 <!--
 # license: Licensed to the Apache Software Foundation (ASF) under one
 #         or more contributor license agreements.  See the NOTICE file
@@ -21,9 +17,17 @@ description: Set the screen orientation
 #         under the License.
 -->
 
-|AppVeyor|Travis CI|
-|:-:|:-:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/github/apache/cordova-plugin-screen-orientation?branch=master)](https://ci.appveyor.com/project/ApacheSoftwareFoundation/cordova-plugin-screen-orientation)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-screen-orientation.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-screen-orientation)|
+### This version of the cordova-plugin-screen-orientation plugin adds a native listener to get the device's current orientation, even when it's locked via orientation.lock()
+
+Define window.onRotationUpdate, take in both rotation integer (0, 90, -90, 180), and device auto rotate locked boolean (true, false), as shown in the example below:
+
+```js
+window.onRotationUpdate = function(rotation, locked) {
+
+}
+```
+
+Congratulations! You can now detect when the device itself has changed orientation, even when your cordova activity is locked in portrait/landscape mode.
 
 # Cordova Screen Orientation Plugin
 
