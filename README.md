@@ -29,6 +29,8 @@ window.onRotationUpdate = function(rotation, locked) {
 
 Congratulations! You can now detect when the device itself has changed orientation, even when your cordova activity is locked in portrait/landscape mode.
 
+###This plugin also disables the upsidedown orientation on iOS when it is unlocked using orientation.unlock(), because why would you want that?
+
 # Cordova Screen Orientation Plugin
 
 Cordova plugin to set/lock the screen orientation in a common way for iOS, Android, and windows-uwp.  This plugin is based on [Screen Orientation API](http://www.w3.org/TR/screen-orientation/) so the api matches the current spec.
