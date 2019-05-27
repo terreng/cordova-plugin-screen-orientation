@@ -151,4 +151,8 @@ function setOrientationProperties() {
 }
 window.addEventListener("orientationchange", orientationchange, true);
 
+window.setTimeout(function () {
+    cordova.exec(null, null, "CDVOrientation", "screenOrientation", []);
+}, 0);
+
 module.exports = screenOrientation;
