@@ -22,18 +22,80 @@
 #import "CDVOrientation.h"
 #import <Cordova/CDVViewController.h>
 #import <objc/message.h>
+#import <CoreMotion/CoreMotion.h>
 
 @interface CDVOrientation () {}
 @end
 
 @implementation CDVOrientation
 
+UIInterfaceOrientation orientationLast, orientationAfterProcess;
+CMMotionManager *motionManager;
+UIInterfaceOrientation orientationNew;
+
+ - (void)initializeMotionManager{
+    motionManager = [[CMMotionManager alloc] init];
+    motionManager.accelerometerUpdateInterval = .3;
+    motionManager.gyroUpdateInterval = .3;
+
+    [motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
+                                        withHandler:^(CMAccelerometerData  *accelerometerData, NSError *error) {
+                                            if (!error) {
+                                                [self outputAccelerationData:accelerometerData.acceleration];
+                                            }
+                                            else{
+                                                NSLog(@"%@", error);
+                                            }
+                                        }];
+}
+
+    - (void)outputAccelerationData:(CMAcceleration)acceleration{
+
+    NSString *rotatedeg = @"";
+
+    if (acceleration.x >= 0.75 && orientationLast != UIInterfaceOrientationLandscapeLeft) {
+        orientationNew = UIInterfaceOrientationLandscapeLeft;
+        rotatedeg = @"-90";
+    }
+    else if (acceleration.x <= -0.75  && orientationLast != UIInterfaceOrientationLandscapeRight) {
+        orientationNew = UIInterfaceOrientationLandscapeRight;
+        rotatedeg = @"90";
+    }
+    else if (acceleration.y <= -0.75) {
+        orientationNew = UIInterfaceOrientationPortrait;
+        rotatedeg = @"0";
+    }
+    else if (acceleration.y >= 0.75) {
+        orientationNew = UIInterfaceOrientationPortraitUpsideDown;
+        rotatedeg = @"180";
+    }
+    else {
+        return;
+    }
+
+    if (orientationNew == orientationLast)
+        return;
+
+    orientationLast = orientationNew;
+
+    [self.commandDelegate evalJs:[NSString stringWithFormat:@"onRotationUpdate('%@',false)", rotatedeg]];
+}
+
 -(void)screenOrientation:(CDVInvokedUrlCommand *)command
 {
+
+    //[self.commandDelegate evalJs:@"alert('-200')"];
+
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+
     CDVPluginResult* pluginResult;
     NSInteger orientationMask = [[command argumentAtIndex:0] integerValue];
     CDVViewController* vc = (CDVViewController*)self.viewController;
     NSMutableArray* result = [[NSMutableArray alloc] init];
+
+    if (orientationMask == nil) {
+        [self initializeMotionManager];
+    }
     
     if(orientationMask & 1) {
         [result addObject:[NSNumber numberWithInt:UIInterfaceOrientationPortrait]];
