@@ -86,7 +86,7 @@ UIInterfaceOrientation orientationNew;
 
     //[self.commandDelegate evalJs:@"alert('-200')"];
 
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    //UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
 
     CDVPluginResult* pluginResult;
     NSInteger orientationMask = [[command argumentAtIndex:0] integerValue];
