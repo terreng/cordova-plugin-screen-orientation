@@ -51,7 +51,7 @@ UIInterfaceOrientation orientationNew;
 
     - (void)outputAccelerationData:(CMAcceleration)acceleration{
 
-    NSString *rotatedeg = @"";
+    NSString *rotatedeg = @"-1";
 
     if (acceleration.x >= 0.75 && orientationLast != UIInterfaceOrientationLandscapeLeft) {
         orientationNew = UIInterfaceOrientationLandscapeLeft;
@@ -78,7 +78,7 @@ UIInterfaceOrientation orientationNew;
 
     orientationLast = orientationNew;
 
-    [self.commandDelegate evalJs:[NSString stringWithFormat:@"onRotationUpdate('%@',false)", rotatedeg]];
+    [self.commandDelegate evalJs:[NSString stringWithFormat:@"onRotationUpdate(%@,false)", rotatedeg]];
 }
 
 -(void)screenOrientation:(CDVInvokedUrlCommand *)command
@@ -135,7 +135,7 @@ UIInterfaceOrientation orientationNew;
                 }
             } else {
                 if (_lastOrientation != UIInterfaceOrientationUnknown) {
-                    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:_lastOrientation] forKey:@"orientation"];
+                    //[[UIDevice currentDevice] setValue:[NSNumber numberWithInt:_lastOrientation] forKey:@"orientation"];
                     ((void (*)(CDVViewController*, SEL, NSMutableArray*))objc_msgSend)(vc,selector,result);
                     [UINavigationController attemptRotationToDeviceOrientation];
                 }
